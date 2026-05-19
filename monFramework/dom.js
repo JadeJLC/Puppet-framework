@@ -40,6 +40,14 @@ function renderElement(vnode) {
   return el;
 }
 
+/**
+ * Met à jour un élément HTML après modification
+ * @param {object} oldVnode La version actuelle de l'objet javascript liée à l'élément
+ * @param {object} newVnode La nouvelle version que l'on souhaite créer
+ * @param {object} domElement L'élément HTML lui-même, sur la page (DOM) qui sera modifié
+ * @param {int} index L'emplacement de l'élément dans la hiérarchie (pour le traitement des children)
+ * @returns
+ */
 function patchElement(oldVnode, newVnode, domElement, index = 0) {
   if (oldVnode === newVnode) return;
   const parent = domElement.parentNode;
