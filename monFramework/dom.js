@@ -1,0 +1,86 @@
+/**
+ * Fonction pour créer un élément HTML
+ * @param {string} tag Type d'élément HTML ('div', 'span', etc)
+ * @param {object} attrs Attributs de l'élément ({class:, id:,} etc)
+ * @param  {...any} children Tous les éventuels éléments enfants
+ * @returns {object} Un objet contenant toutes les informations
+ */
+function createElement(tag, attrs, ...children) {
+  return {
+    tag: tag,
+    attrs: attrs || {},
+    children: children.filter((child) => child != null),
+  };
+}
+
+/**
+ * Transforme un objet en élément HTML exploitable
+ * @param {object} vnode Les données de l'élément à afficher, créées dans createElement
+ * @returns {HTMLElement} L'élément HTML prêt à être intégré dans le DOM
+ */
+function renderElement(vnode) {
+  if (typeof vnode === "string") return document.createTextNode(vnode);
+
+  if (!vnode.tag) return;
+  const el = document.createElement(vnode.tag);
+
+  for (const key in vnode.attrs) {
+    el.setAttribute(key, vnode.attrs[key]);
+  }
+
+  vnode.children.forEach((child) => {
+    if (typeof child === "string") {
+      const node = document.createTextNode(child);
+      el.appendChild(node);
+    } else {
+      el.appendChild(renderElement(child));
+    }
+  });
+
+  return el;
+}
+
+function patchElement(oldVnode, newVnode, domElement, index = 0) {
+  if (oldVnode === newVnode) return;
+  const parent = domElement.parentNode;
+
+  if (newVnode === null) {
+    domElement.remove();
+  }
+
+  if (typeof oldVnode === "string" && typeof newVnode === "string") {
+    if (oldVnode != newVnode) {
+      domElement.textContent = newVnode;
+    }
+    return;
+  }
+
+  if (oldVnode.tag != newVnode.tag) {
+    parent.replaceChild(renderElement(newVnode), domElement);
+    return;
+  }
+
+  for (const key in oldVnode.attrs) {
+    if (oldVnode.attrs[key] != newVnode.attrs[key]) {
+      domElement.removeAttribute(key);
+      domElement.setAttribute(key, newVnode.attrs[key]);
+    }
+  }
+
+  for (const key in newVnode.attrs) {
+    if (!oldVnode.attrs[key]) {
+      domElement.setAttribute(key, newVnode[key]);
+    }
+  }
+
+  newVnode.children.forEach((child, index) => {
+    patchElement(
+      oldVnode.children[index],
+      newVnode.children[index],
+      domElement.childNodes[index],
+      index,
+    );
+  });
+}
+
+export { createElement, renderElement, patchElement };
