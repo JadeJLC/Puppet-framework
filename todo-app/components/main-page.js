@@ -20,11 +20,13 @@ function createListItem(task, allTasks) {
     deleteBtn,
   );
 
+  console.log("task :", task);
   const item = createElement(
     "li",
     {
       class: task.completed ? "completed" : "",
       "data-testid": "todo-item",
+      "data-taskid": task.id,
     },
     wrapper,
   );
@@ -58,6 +60,7 @@ function createMarkAllButton() {
 
 /**
  * Fonction principale pour la conception de la section des tâches
+ * Fabrique les données HTML et les renvoie pour le render dans app.js
  * @param {array} list Une liste d'objets où chaque objet contient une tâche
  * @returns {object} La base pour fabriquer la section HTML de la todolist
  */

@@ -90,7 +90,7 @@ function patchElement(
 
   for (const key in newVnode.attrs) {
     if (!oldVnode.attrs[key]) {
-      domElement.setAttribute(key, newVnode[key]);
+      domElement.setAttribute(key, newVnode.attrs[key]);
     }
   }
 

@@ -1,9 +1,8 @@
 import { createElement } from "../../monFramework/index.js";
 
-import { store } from "../app.js";
-
 /**
  * Fonction pour la création du formulaire d'ajout de nouvelle tâche
+ * Fabrique les données HTML et les renvoie pour le render dans app.js
  * @returns {object} L'objet de base du header qui sera transformé en élément HTML
  */
 function createForm() {
@@ -35,20 +34,4 @@ function createForm() {
   return header;
 }
 
-let nextId = 1;
-
-function addNewTask(text) {
-  const state = store.getState();
-  const newTask = {
-    id: nextId,
-    text: text,
-    completed: false,
-  };
-  store.setState({
-    tasks: [...state.tasks, newTask],
-  });
-
-  nextId++;
-}
-
-export { createForm, addNewTask };
+export { createForm };

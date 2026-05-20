@@ -45,6 +45,7 @@ function buildFooter(todoCount, buttons) {
 
 /**
  * Fonction pour créer les différents filtres de la page
+ * Fabrique les données HTML et les renvoie pour le render dans app.js
  * @param {array} list Liste des tâches disponibles
  * @param {string} currentFilter Filtre actuellement actif
  * @returns {object} Le footer créé à partir des informations de filtre

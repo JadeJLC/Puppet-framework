@@ -7,8 +7,9 @@ import {
   userAction,
 } from "../monFramework/index.js";
 import { createFilters } from "./components/filters.js";
-import { addNewTask, createForm } from "./components/form-add.js";
+import { createForm } from "./components/form-add.js";
 import { createToDoList } from "./components/main-page.js";
+import { updateTaskStatus, addNewTask } from "./components/actions.js";
 
 /**
  * Mise en place de l'état initial du site
@@ -38,10 +39,8 @@ const router = createRouter({
 
 function renderList() {
   const state = store.getState();
-  console.log("state:", state);
-  console.log("oldVnode:", oldVnode);
 
-  const newVnode = createMainPage(state.tasks, state.filter);
+  const newVnode = createHTMLstructure(state.tasks, state.filter);
 
   if (oldVnode === null) {
     container.appendChild(renderElement(newVnode));
@@ -63,9 +62,16 @@ function createListeners() {
       }
     },
   );
+
+  userAction(
+    document.querySelector("main ul.todo-list"),
+    "click",
+    ".toggle",
+    updateTaskStatus,
+  );
 }
 
-function createMainPage(list, currentFilter) {
+function createHTMLstructure(list, currentFilter) {
   let filteredList = list;
 
   if (currentFilter === "/active") {
