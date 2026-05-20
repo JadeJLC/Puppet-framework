@@ -79,3 +79,5 @@ function createFilters(list, currentFilter) {
 
   return buildFooter(todo.length, buttons);
 }
+
+export { createFilters };

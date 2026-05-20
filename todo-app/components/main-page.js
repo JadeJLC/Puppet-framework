@@ -6,7 +6,7 @@ import { createElement } from "../../monFramework/index.js";
  * @param {array} allTasks Le bloc contenant tous les objets de tâche de la liste
  */
 function createListItem(task, allTasks) {
-  const label = createElement("label", null, task.name);
+  const label = createElement("label", null, task.text);
   const checkBox = createElement("input", {
     class: "toggle",
     type: "checkbox",

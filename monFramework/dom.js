@@ -50,6 +50,13 @@ function renderElement(vnode) {
  */
 function patchElement(oldVnode, newVnode, domElement, index = 0) {
   if (oldVnode === newVnode) return;
+  if (!domElement && !newVnode) return;
+  if (!domElement && newVnode) {
+    const parent = document.getElementById("app");
+    parent.appendChild(renderElement(newVnode));
+    return;
+  }
+
   const parent = domElement.parentNode;
 
   if (newVnode === null) {
@@ -81,14 +88,19 @@ function patchElement(oldVnode, newVnode, domElement, index = 0) {
     }
   }
 
-  newVnode.children.forEach((child, index) => {
+  const maxLength = Math.max(
+    oldVnode.children.length,
+    newVnode.children.length,
+  );
+
+  for (let i = 0; i < maxLength; i++) {
     patchElement(
-      oldVnode.children[index],
-      newVnode.children[index],
-      domElement.childNodes[index],
-      index,
+      oldVnode.children[i],
+      newVnode.children[i],
+      domElement.childNodes[i],
+      i,
     );
-  });
+  }
 }
 
 export { createElement, renderElement, patchElement };
