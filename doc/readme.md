@@ -124,7 +124,135 @@ Remplacé par :
 <h1 class="title">Insérez un titre ici</h1>
 ```
 
-Store — createStore, setState, getState, subscribe
-Router — createRouter
-Events — userAction
-Exemple complet — un mini exemple qui utilise tout
+## STORE - store.js
+
+- Fonctions : createStore, setState, getState, subscribe
+
+### createStore()
+
+Fonction de gestion de la page par le framework. Crée une "bibliothèque" de fonctions qui seront utilisées par l'appli pour mettre à jour le contenu de la page
+
+**_Prend en paramètre_**
+
+- initialState{object} Toutes les données actuelles de la page
+
+**_Renvoie_**
+
+- La liste des fonctions créées par le store
+
+**_Exemple d'appel initial_**
+
+```js
+const store = createStore({
+  tasks: [],
+  filter: "/",
+});
+```
+
+### setState() - dépendante de createStore
+
+Récupère les modifications suite à une action utilisateur et les stocke comme nouvel état de la page. Appelle toutes les fonctions nécessaires pour mettre à jour l'information dans le DOM. Les données existantes sont conservées, seules les clés passées en paramètre sont mises à jour.
+**_Prend en paramètre_**
+
+- newState{object} Les données rajoutées à la page (nouvel élément, url, etc)
+
+**_Exemple_**
+
+```js
+    store.setState({ filter: "/active" }),
+```
+
+### getState() - dépendante de createStore
+
+Renvoie l'état actuel de la page. Permet de récupérer des informations pour pouvoir ensuite agir dessus ou les afficher
+
+**_Renvoie_**
+
+- Les données actuelles de la page (tout ce qui peut être utilisé par l'app)
+
+**_Exemple_**
+
+```js
+// Récupération du state
+const state = store.getState();
+// Agir sur ce que renvoie le state
+const newVnode = createHTMLstructure(state.tasks, state.filter);
+```
+
+### subscribe() - dépendante de createStore
+
+Ajoute une fonction à la liste des "fonctions à notifier". Ce sont les fonctions qui se relancent en cas de changement dans les données de la page (par exemple, une fonction de création d'élément aura besoin de mettre à jour l'affichage si certaines données ont changé)
+
+**_Prend en paramètres_**
+
+- func{function} Une fonction à ajouter à la liste, qui se lancera dans setState si une mise à jour est faite
+
+**_ Exemple_**
+
+```js
+// La fonction renderList gère l'affichage d'une liste de tâches. Si une tâche est ajoutée, elle doit l'afficher à la suite des autres.
+// On l'abonne aux mises à jour
+store.subscribe(renderList);
+```
+
+## ROUTEUR - router.js
+
+Fonctions : createRouter
+
+### createRouter()
+
+Crée un routeur fonctionnel adapté à une SPA : les urls attendus sont au format **/#/destination**. Analyse l'url de la page pour charger la route actuelle et coordonner l'affichage. Si aucune route ne correspond à l'url actuelle, la route "/" est chargée par défaut.
+
+**_Prend en paramètres_**
+
+- routes{object} Une liste de routes pour les accès à la page au format :
+
+```js
+    {
+    "/destination": function
+    }
+```
+
+**_Exemple_**
+
+```js
+const router = createRouter({
+  "/": () => store.setState({ filter: "/" }),
+  "/active": () => store.setState({ filter: "/active" }),
+  "/completed": () => store.setState({ filter: "/completed" }),
+});
+```
+
+## EVENTS - events.js
+
+Fonctions : userAction
+
+### userAction()
+
+Gère les eventListener pour faciliter l'intégration sur les pages HTML et alléger la syntaxe de la page. Contrairement à addEventListener qui attache un listener
+sur chaque élément individuellement, userAction place un seul listener sur le parent et détecte les actions sur ses enfants. Ça permet d'éviter la répétition de listeners lorsqu'on a beaucoup d'éléments similaires (comme une liste) ou un layout qui ajoute/supprime des éléments dynamiquement.
+
+**_Prend en paramètre_**
+
+- parent{HTMLElement} Élément parent sur lequel est placé l'event listener
+- eventType{string} Type d'événement à écouter (click, keydown, etc)
+- selector{string} id, class ou tag de l'élément sur lequel l'action doit être effectuée
+- handler{func} Fonction à lancer si les conditions sont remplies
+
+**_Exemple_**
+
+```js
+// Ajoute le listener sur l'élément "footer", lorsque l'utilisateur clique sur l'élément de class "clear-completed"
+userAction(
+  document.querySelector("footer"),
+  "click",
+  ".clear-completed",
+  clearCompleted,
+);
+```
+
+## Exemple concret
+
+Un exemple d'application complète utilisant Puppet est disponible dans le dossier `todo-app/`. Il s'agit d'une implémentation du standard TodoMVC qui illustre l'utilisation combinée de toutes les fonctionnalités du framework.
+
+Pour lancer l'exemple, ouvre `index.html` à la racine du projet dans un navigateur.
