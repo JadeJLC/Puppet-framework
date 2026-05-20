@@ -1,15 +1,11 @@
 import { createElement } from "../../monFramework/index.js";
 
-// <footer class="footer" data-testid="footer">
-//   <span class="todo-count">1 item left!</span>
-//   <ul class="filters" data-testid="footer-navigation">
-//     <li><a class="selected" href="#/">All</a></li>
-//     <li><a class="" href="#/active">Active</a></li>
-//     <li><a class="" href="#/completed">Completed</a></li>
-//   </ul>
-//   <button class="clear-completed">Clear completed</button>
-// </footer>
-
+/**
+ * Fonction de soutien pour créer le HTML du footer
+ * @param {int} todoCount Nombre de tâches restantes à faire
+ * @param {array} buttons Liste des boutons de filtre à créer
+ * @returns {object} Les bases de l'élément HTML du footer pour le rendu
+ */
 function buildFooter(todoCount, buttons) {
   const items = [];
 
@@ -47,6 +43,12 @@ function buildFooter(todoCount, buttons) {
   return container;
 }
 
+/**
+ * Fonction pour créer les différents filtres de la page
+ * @param {array} list Liste des tâches disponibles
+ * @param {string} currentFilter Filtre actuellement actif
+ * @returns {object} Le footer créé à partir des informations de filtre
+ */
 function createFilters(list, currentFilter) {
   const completed = list.filter((task) => task.completed);
   const todo = list.filter((task) => !task.completed);
