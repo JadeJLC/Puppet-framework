@@ -6,12 +6,17 @@ import { createElement } from "../../puppet/index.js";
  * @param {array} allTasks Le bloc contenant tous les objets de tâche de la liste
  */
 function createListItem(task, allTasks) {
-  const label = createElement("label", null, task.text);
+  const label = createElement("label", { for: `task-${task.id}` }, task.text);
   const checkBox = createElement("input", {
     class: "toggle",
     type: "checkbox",
+    id: `task-${task.id}`,
   });
-  const deleteBtn = createElement("button", { class: "destroy" });
+  const deleteBtn = createElement(
+    "button",
+    { class: "destroy", title: "Supprimer de la liste" },
+    "✘",
+  );
   const wrapper = createElement(
     "div",
     { class: "view" },
@@ -43,10 +48,14 @@ function createMarkAllButton() {
     type: "checkbox",
     id: "toggle-all",
   });
-  const markAllLabel = createElement("label", {
-    class: "toggle-all-label",
-    for: "toggle-all",
-  });
+  const markAllLabel = createElement(
+    "label",
+    {
+      class: "toggle-all-label",
+      for: "toggle-all",
+    },
+    "✔",
+  );
   const markAllWrapper = createElement(
     "div",
     {

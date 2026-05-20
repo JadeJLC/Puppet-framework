@@ -29,7 +29,7 @@ function buildFooter(todoCount, buttons) {
   const counter = createElement(
     "span",
     { class: "todo-count" },
-    `Encore ${todoCount} tâches à finir !`,
+    `Encore ${todoCount} tâche${todoCount > 1 ? "s" : ""} à finir !`,
   );
 
   const container = createElement(

@@ -11,17 +11,21 @@ function createForm() {
     id: "todo-input",
     type: "text",
     "data-testid": "text-input",
-    placeholder: "Ajouter une tâche",
+    placeholder: "Terminer un projet, faire une pause, manger quelque chose...",
   });
-  const label = createElement("label", {
-    class: "visually-hidden",
-    for: "todo-input",
-  });
+  const label = createElement(
+    "label",
+    {
+      class: "visually-hidden",
+      for: "todo-input",
+    },
+    "Quel est le prochain objectif ?",
+  );
   const container = createElement(
     "div",
     { class: "input-container" },
-    input,
     label,
+    input,
   );
   const title = createElement("h1", null, "Cozy To-do list");
   const header = createElement(

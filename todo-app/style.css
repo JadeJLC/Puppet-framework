@@ -1,0 +1,359 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Gluten:wght@100..900&family=Indie+Flower&family=Madimi+One&display=swap");
+
+/* #region ***** Bases de la page */
+:root {
+  --font-content: "Madimi One", sans-serif;
+  --font-softer: "Caveat", cursive;
+  --font-main: "Gluten", cursive;
+  --font-thin: "Indie Flower", cursive;
+
+  --color-title: #db893d;
+  --color-bonus: #a3200f;
+  --color-background: #fffaed;
+  --color-button: #db624c;
+  --color-filters: #f5b5a3;
+  --color-borders: #eee1ce;
+
+  --radius-big: 20px;
+  --radius-inner: 8px;
+}
+
+body {
+  background-image:
+    radial-gradient(
+      circle at 12% 8%,
+      color(xyz 0.717 0.584 0.471 / 0.349),
+      #0000 45%
+    ),
+    radial-gradient(circle at 92% 18%, #92e2b752, #0000 50%),
+    radial-gradient(
+      circle at 80% 92%,
+      color(xyz 0.5 0.51 1.122 / 0.278),
+      #0000 50%
+    ),
+    radial-gradient(circle at 6% 88%, #f2d76c66, #0000 50%),
+    radial-gradient(#a7725417 1px, #0000 1px),
+    radial-gradient(#934c3a0d 1px, #0000 1px);
+  background-attachment: fixed;
+  font-family: var(--font-content);
+}
+
+.todoapp {
+  width: 90%;
+  max-width: 1500px;
+  margin: auto;
+  font-family: var(--font-softer);
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.input-container,
+footer {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* #endregion */
+
+/* #region ***** Titre de la page */
+
+.header {
+  margin: auto;
+}
+
+.header::before {
+  display: block;
+  content: "Prends ton temps, une tâche à la fois";
+  width: 100%;
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--color-bonus);
+}
+
+.header h1 {
+  font-family: var(--font-main);
+  font-size: 2.5em;
+  width: fit-content;
+  position: relative;
+  margin: auto;
+  color: var(--color-title);
+  margin-bottom: 50px;
+}
+
+.header h1::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 30px;
+
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1418 125'%3E%3Cpath d='M1412.29 72.17c-11.04-5.78-20.07-14.33-85.46-25.24-22.37-3.63-44.69-7.56-67.07-11.04-167.11-22.06-181.65-21.24-304.94-30.56C888.78 1.39 822.57 1.1 756.44 0c-46.63-.11-93.27 1.56-139.89 2.5C365.5 13.55 452.86 7.68 277.94 23.15 202.57 33.32 127.38 45.01 52.07 55.69c-11.23 2.41-22.63 4.17-33.71 7.22C6.1 66.33 5.64 66.19 3.89 67.79c-7.99 5.78-2.98 20.14 8.72 17.5 33.99-9.47 32.28-8.57 178.06-29.66 4.26 4.48 7.29 3.38 18.42 3.11 13.19-.32 26.38-.53 39.56-1.12 53.51-3.81 106.88-9.62 160.36-13.95 18.41-1.3 36.8-3.12 55.21-4.7 23.21-1.16 46.43-2.29 69.65-3.4 120.28-2.16 85.46-3.13 234.65-1.52 23.42.99 1.57-.18 125.72 6.9 96.61 8.88 200.92 27.94 295.42 46.12 40.87 7.91 116.67 23.2 156.31 36.78 3.81 1.05 8.28-.27 10.51-3.58 3.17-3.72 2.66-9.7-.78-13.13-3.25-3.12-8.14-3.44-12.18-5.08-17.89-5.85-44.19-12.09-63.67-16.56l26.16 3.28c23.02 3.13 46.28 3.92 69.34 6.75 10.8.96 25.43 1.81 34.34-4.39 2.26-1.54 4.86-2.75 6.21-5.27 2.76-4.59 1.13-11.06-3.59-13.68ZM925.4 23.77c37.64 1.4 153.99 10.85 196.64 14.94 45.95 5.51 91.89 11.03 137.76 17.19 24.25 4.77 74.13 11.21 101.72 18.14-11.87-1.15-23.77-1.97-35.65-3.06-133.46-15.9-266.8-33.02-400.47-47.21Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1418 125'%3E%3Cpath d='M1412.29 72.17c-11.04-5.78-20.07-14.33-85.46-25.24-22.37-3.63-44.69-7.56-67.07-11.04-167.11-22.06-181.65-21.24-304.94-30.56C888.78 1.39 822.57 1.1 756.44 0c-46.63-.11-93.27 1.56-139.89 2.5C365.5 13.55 452.86 7.68 277.94 23.15 202.57 33.32 127.38 45.01 52.07 55.69c-11.23 2.41-22.63 4.17-33.71 7.22C6.1 66.33 5.64 66.19 3.89 67.79c-7.99 5.78-2.98 20.14 8.72 17.5 33.99-9.47 32.28-8.57 178.06-29.66 4.26 4.48 7.29 3.38 18.42 3.11 13.19-.32 26.38-.53 39.56-1.12 53.51-3.81 106.88-9.62 160.36-13.95 18.41-1.3 36.8-3.12 55.21-4.7 23.21-1.16 46.43-2.29 69.65-3.4 120.28-2.16 85.46-3.13 234.65-1.52 23.42.99 1.57-.18 125.72 6.9 96.61 8.88 200.92 27.94 295.42 46.12 40.87 7.91 116.67 23.2 156.31 36.78 3.81 1.05 8.28-.27 10.51-3.58 3.17-3.72 2.66-9.7-.78-13.13-3.25-3.12-8.14-3.44-12.18-5.08-17.89-5.85-44.19-12.09-63.67-16.56l26.16 3.28c23.02 3.13 46.28 3.92 69.34 6.75 10.8.96 25.43 1.81 34.34-4.39 2.26-1.54 4.86-2.75 6.21-5.27 2.76-4.59 1.13-11.06-3.59-13.68ZM925.4 23.77c37.64 1.4 153.99 10.85 196.64 14.94 45.95 5.51 91.89 11.03 137.76 17.19 24.25 4.77 74.13 11.21 101.72 18.14-11.87-1.15-23.77-1.97-35.65-3.06-133.46-15.9-266.8-33.02-400.47-47.21Z'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* #endregion */
+
+/* #region ***** Formulaire d'ajout de tâche */
+.input-container::before,
+.input-container::after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 20px;
+}
+
+.input-container::before {
+  top: -10px;
+  left: -20px;
+  width: 72px;
+  background-color: #a7f1f1ad;
+  transform: rotate(-17deg);
+}
+
+.input-container::after {
+  bottom: -5px;
+  right: -20px;
+  width: 60px;
+  background-color: #ff93f1ad;
+  transform: rotate(-25deg);
+}
+
+.input-container {
+  position: relative;
+  padding: 30px;
+  background-color: var(--color-background);
+  border-radius: var(--radius-big);
+  border: 1px solid var(--color-borders);
+}
+
+.input-container label {
+  color: var(--color-bonus);
+  display: block;
+  font-size: 1.3em;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.input-container input {
+  display: block;
+  background-color: var(--color-background);
+  border: 0px;
+  border-bottom: 2px dashed var(--color-bonus);
+  border-radius: var(--radius-big);
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 1em;
+  color: var(--color-bonus);
+  font-family: var(--font-content);
+}
+
+.input-container input::placeholder {
+  color: var(--color-filters);
+  font-style: italic;
+  font-weight: 100;
+  font-family: var(--font-thin);
+}
+
+.input-container input:focus {
+  outline: none;
+  border-bottom: 2px dashed lch(from var(--color-bonus) calc(l - 30) c h);
+  background-color: lch(
+    from var(--color-background) calc(l + 30) calc(c - 30) h
+  );
+}
+
+/* #endregion */
+
+/* #region **** "Tout marquer comme terminer" */
+.toggle-all-container {
+  padding: 5px;
+  width: 90%;
+  box-sizing: border-box;
+  margin: auto;
+  background-color: var(--color-filters);
+  border-radius: var(--radius-inner);
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.toggle-all-container::after {
+  content: "Tout marquer comme terminé";
+}
+
+.toggle-all-container:has(input:checked)::after {
+  content: 'Toutes les tâches ont été marquées "terminées"';
+}
+
+.toggle-all-container label,
+.todo-list .view label::before {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--color-bonus);
+  background-color: var(--color-background);
+  color: var(--color-background);
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-all-container input {
+  visibility: hidden;
+}
+
+.toggle-all-container input:checked + label,
+.todo-list .view input:checked + label::before {
+  background-color: var(--color-bonus);
+}
+
+.toggle-all-container input {
+  display: block;
+  height: 20px;
+}
+
+/* #endregion */
+
+/* #region ***** liste des tâches */
+.todo-list {
+  width: 100%;
+  padding: 0px;
+}
+
+.todo-list li {
+  list-style: none;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  padding-top: 0px;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-borders);
+  border-radius: var(--radius-big);
+  color: var(--color-bonus);
+  position: relative;
+}
+
+.todo-list li.completed {
+  font-style: italic;
+  color: var(--color-button);
+}
+
+.todo-list li::after {
+  font-size: 0.7em;
+  font-family: var(--font-thin);
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  content: "À faire";
+}
+
+.todo-list li.completed::after {
+  content: "Terminé";
+}
+
+.view label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.view input {
+  visibility: hidden;
+}
+
+.todo-list .view label::before {
+  content: "✔";
+}
+
+.view .destroy {
+  background-color: var(--color-bonus);
+  border-radius: var(--radius-big);
+  border: 1px solid var(--color-button);
+  color: var(--color-filters);
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+}
+
+/* #endregion */
+
+/* #region ***** Filtres */
+footer {
+  background-color: var(--color-background);
+  width: 100%;
+  padding: 30px;
+  border-radius: var(--radius-big);
+  border: 1px solid var(--color-borders);
+  position: relative;
+  margin-top: 45px;
+}
+
+.todo-count {
+  position: absolute;
+  top: -30px;
+  text-align: center;
+  display: block;
+  width: 60%;
+  color: var(--color-bonus);
+}
+
+footer::before {
+  content: "Filtrer";
+  font-family: var(--font-content);
+  display: block;
+  margin-top: -15px;
+  font-variant: small-caps;
+  color: var(--color-title);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+footer ul {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+footer li {
+  list-style: none;
+}
+
+footer li a {
+  font-size: 0.9em;
+  font-family: var(--font-main);
+  white-space: nowrap;
+  padding: 7px 15px 5px 15px;
+  background-color: var(--color-borders);
+  border: 1px dashed var(--color-filters);
+  border-radius: var(--radius-big);
+  text-decoration: none;
+  color: var(--color-button);
+}
+
+footer li .selected {
+  background-color: var(--color-filters);
+  border-color: var(--color-bonus);
+  color: var(--color-bonus);
+}
+
+footer button {
+  background-color: var(--color-button);
+  border-radius: var(--radius-inner);
+  position: absolute;
+  bottom: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  outline: none;
+  border: 1px solid var(--color-bonus);
+  padding: 5px 15px;
+}
+/* #endregion */
