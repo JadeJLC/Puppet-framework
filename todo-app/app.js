@@ -16,7 +16,6 @@ const router = createRouter({
   "/todo": displayUnstartedTasks,
   "/completed": displayCompletedTasks,
   "/": displayAllTasks,
-  "/all": displayAllTasks,
   "/clear": clearAllCompletedTasks,
   "/new": addNewTask,
 });
