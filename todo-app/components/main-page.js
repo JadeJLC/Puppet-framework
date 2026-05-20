@@ -1,4 +1,4 @@
-import { createElement } from "../../monFramework/index.js";
+import { createElement } from "../../puppet/index.js";
 
 /**
  * Fonction de soutien pour créer chaque élément de la liste de tâches

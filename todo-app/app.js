@@ -5,11 +5,16 @@ import {
   renderElement,
   patchElement,
   userAction,
-} from "../monFramework/index.js";
+} from "../puppet/index.js";
 import { createFilters } from "./components/filters.js";
 import { createForm } from "./components/form-add.js";
 import { createToDoList } from "./components/main-page.js";
-import { updateTaskStatus, addNewTask } from "./components/actions.js";
+import {
+  updateTaskStatus,
+  addNewTask,
+  deleteTask,
+  clearCompleted,
+} from "./components/actions.js";
 
 /**
  * Mise en place de l'état initial du site
@@ -68,6 +73,20 @@ function createListeners() {
     "click",
     ".toggle",
     updateTaskStatus,
+  );
+
+  userAction(
+    document.querySelector("main ul.todo-list"),
+    "click",
+    ".destroy",
+    deleteTask,
+  );
+
+  userAction(
+    document.querySelector("footer"),
+    "click",
+    ".clear-completed",
+    clearCompleted,
   );
 }
 

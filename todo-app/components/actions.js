@@ -34,4 +34,21 @@ function updateTaskStatus(event) {
   store.setState({ tasks: newTasks });
 }
 
-export { addNewTask, updateTaskStatus };
+function deleteTask(event) {
+  const state = store.getState();
+  const id = Number(event.target.closest("[data-taskid]").dataset.taskid);
+
+  const newTasks = state.tasks.filter((task) => task.id != id);
+
+  store.setState({ tasks: newTasks });
+}
+
+function clearCompleted() {
+  const state = store.getState();
+
+  const newTasks = state.tasks.filter((task) => !task.completed);
+
+  store.setState({ tasks: newTasks });
+}
+
+export { addNewTask, updateTaskStatus, deleteTask, clearCompleted };
