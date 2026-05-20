@@ -1,4 +1,9 @@
-import { createRouter } from "../monFramework/router.j";
+import { createRouter, createStore } from "../monFramework/rindex.js";
+
+const store = createStore({
+  todos: [],
+  filter: "/",
+});
 
 const router = createRouter({
   "/active": displayTasksInProgress,
