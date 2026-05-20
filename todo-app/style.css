@@ -210,7 +210,8 @@ footer {
 }
 
 .toggle-all-container input:checked + label,
-.todo-list .view input:checked + label::before {
+.view input:checked + label::before,
+.completed .view label::before {
   background-color: var(--color-bonus);
 }
 

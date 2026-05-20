@@ -14,6 +14,8 @@ import {
   addNewTask,
   deleteTask,
   clearCompleted,
+  markAllDone,
+  markAllNew,
 } from "./components/actions.js";
 
 /**
@@ -87,6 +89,19 @@ function createListeners() {
     "click",
     ".clear-completed",
     clearCompleted,
+  );
+
+  userAction(
+    document.querySelector(".toggle-all-container"),
+    "click",
+    ".toggle-all",
+    (event) => {
+      if (event.target.checked) {
+        markAllDone();
+      } else {
+        markAllNew();
+      }
+    },
   );
 }
 

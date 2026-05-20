@@ -25,7 +25,6 @@ function createListItem(task, allTasks) {
     deleteBtn,
   );
 
-  console.log("task :", task);
   const item = createElement(
     "li",
     {

@@ -51,4 +51,29 @@ function clearCompleted() {
   store.setState({ tasks: newTasks });
 }
 
-export { addNewTask, updateTaskStatus, deleteTask, clearCompleted };
+function markAllDone() {
+  const state = store.getState();
+
+  const newTasks = state.tasks.map((task) => {
+    return { ...task, completed: true };
+  });
+  store.setState({ tasks: newTasks });
+}
+
+function markAllNew() {
+  const state = store.getState();
+
+  const newTasks = state.tasks.map((task) => {
+    return { ...task, completed: false };
+  });
+  store.setState({ tasks: newTasks });
+}
+
+export {
+  addNewTask,
+  updateTaskStatus,
+  deleteTask,
+  clearCompleted,
+  markAllDone,
+  markAllNew,
+};
