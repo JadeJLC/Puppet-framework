@@ -1,4 +1,4 @@
-import { createElement } from "monFramework/index.js";
+import { createElement } from "../../monFramework/index.js";
 
 function createForm() {
   const input = createElement("input", {
