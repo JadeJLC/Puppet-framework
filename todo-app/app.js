@@ -38,6 +38,8 @@ const router = createRouter({
 
 function renderList() {
   const state = store.getState();
+  console.log("state:", state);
+  console.log("oldVnode:", oldVnode);
 
   const newVnode = createMainPage(state.tasks, state.filter);
 
@@ -64,6 +66,14 @@ function createListeners() {
 }
 
 function createMainPage(list, currentFilter) {
+  let filteredList = list;
+
+  if (currentFilter === "/active") {
+    filteredList = list.filter((task) => !task.completed);
+  } else if (currentFilter === "/completed") {
+    filteredList = list.filter((task) => task.completed);
+  }
+
   return createElement(
     "section",
     {
@@ -71,7 +81,7 @@ function createMainPage(list, currentFilter) {
       id: "root",
     },
     createForm(),
-    createToDoList(list),
+    createToDoList(filteredList),
     createFilters(list, currentFilter),
   );
 }

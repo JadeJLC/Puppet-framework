@@ -48,19 +48,25 @@ function renderElement(vnode) {
  * @param {int} index L'emplacement de l'élément dans la hiérarchie (pour le traitement des children)
  * @returns
  */
-function patchElement(oldVnode, newVnode, domElement, index = 0) {
+function patchElement(
+  oldVnode,
+  newVnode,
+  domElement,
+  parentElement,
+  index = 0,
+) {
   if (oldVnode === newVnode) return;
   if (!domElement && !newVnode) return;
   if (!domElement && newVnode) {
-    const parent = document.getElementById("app");
-    parent.appendChild(renderElement(newVnode));
+    parentElement.appendChild(renderElement(newVnode));
     return;
   }
 
   const parent = domElement.parentNode;
 
-  if (newVnode === null) {
+  if (!oldVnode || !newVnode) {
     domElement.remove();
+    return;
   }
 
   if (typeof oldVnode === "string" && typeof newVnode === "string") {
@@ -98,6 +104,7 @@ function patchElement(oldVnode, newVnode, domElement, index = 0) {
       oldVnode.children[i],
       newVnode.children[i],
       domElement.childNodes[i],
+      domElement,
       i,
     );
   }
