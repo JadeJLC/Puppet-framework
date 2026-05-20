@@ -19,3 +19,5 @@ function createStore(initialState) {
 
   return { setState, getState, subscribe };
 }
+
+export { createStore };
