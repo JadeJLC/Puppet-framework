@@ -1,44 +1,41 @@
 import { createElement } from "../../monFramework/index.js";
 
-function createToDoList(list) {
-  const allTasks = [];
-  if (list.length > 0) {
-    list.forEach((task) => {
-      const label = createElement("label", null, task.name);
-      const checkBox = createElement("input", {
-        class: "toggle",
-        type: "checkbox",
-      });
-      const deleteBtn = createElement("button", { class: "destroy" });
-      const wrapper = createElement(
-        "div",
-        { class: "view" },
-        checkBox,
-        label,
-        deleteBtn,
-      );
-
-      const item = createElement(
-        "li",
-        {
-          class: task.completed ? "completed" : "",
-          "data-testid": "todo-item",
-        },
-        wrapper,
-      );
-      allTasks.push(item);
-    });
-  }
-
-  const listContainer = createElement(
-    "ul",
-    {
-      class: "todo-list",
-      "data-testid": "todo-list",
-    },
-    ...allTasks,
+/**
+ * Fonction de soutien pour créer chaque élément de la liste de tâches
+ * @param {object} task Les données de la tâche à créer
+ * @param {array} allTasks Le bloc contenant tous les objets de tâche de la liste
+ */
+function createListItem(task, allTasks) {
+  const label = createElement("label", null, task.name);
+  const checkBox = createElement("input", {
+    class: "toggle",
+    type: "checkbox",
+  });
+  const deleteBtn = createElement("button", { class: "destroy" });
+  const wrapper = createElement(
+    "div",
+    { class: "view" },
+    checkBox,
+    label,
+    deleteBtn,
   );
 
+  const item = createElement(
+    "li",
+    {
+      class: task.completed ? "completed" : "",
+      "data-testid": "todo-item",
+    },
+    wrapper,
+  );
+  allTasks.push(item);
+}
+
+/**
+ * Fonction de soutien pour créer le bouton "Marquer tout comme terminé"
+ * @returns {object} L'objet contenant toutes les informations du bouton
+ */
+function createMarkAllButton() {
   const markAllDone = createElement("input", {
     class: "toggle-all",
     type: "checkbox",
@@ -56,6 +53,32 @@ function createToDoList(list) {
     markAllDone,
     markAllLabel,
   );
+  return markAllWrapper;
+}
+
+/**
+ * Fonction principale pour la conception de la section des tâches
+ * @param {array} list Une liste d'objets où chaque objet contient une tâche
+ * @returns {object} La base pour fabriquer la section HTML de la todolist
+ */
+function createToDoList(list) {
+  const allTasks = [];
+  if (list.length > 0) {
+    list.forEach((task) => {
+      createListItem(task, allTasks);
+    });
+  }
+
+  const listContainer = createElement(
+    "ul",
+    {
+      class: "todo-list",
+      "data-testid": "todo-list",
+    },
+    ...allTasks,
+  );
+
+  const markAllWrapper = createMarkAllButton();
 
   const mainContainer = createElement(
     "main",

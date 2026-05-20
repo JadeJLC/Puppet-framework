@@ -1,5 +1,9 @@
 import { createElement } from "../../monFramework/index.js";
 
+/**
+ * Fonction pour la création du formulaire d'ajout de nouvelle tâche
+ * @returns {object} L'objet de base du header qui sera transformé en élément HTML
+ */
 function createForm() {
   const input = createElement("input", {
     class: "new-todo",
