@@ -16,6 +16,9 @@ import {
   clearCompleted,
   markAllDone,
   markAllNew,
+  startEdit,
+  saveEdit,
+  cancelEdit,
 } from "./components/actions.js";
 
 /**
@@ -24,6 +27,7 @@ import {
 const store = createStore({
   tasks: [],
   filter: "/",
+  editingID: null,
 });
 let oldVnode = null;
 const container = document.getElementById("app");
@@ -47,14 +51,18 @@ const router = createRouter({
 function renderList() {
   const state = store.getState();
 
-  const newVnode = createHTMLstructure(state.tasks, state.filter);
+  const newVnode = createHTMLstructure(
+    state.tasks,
+    state.filter,
+    state.editingID,
+  );
 
   if (oldVnode === null) {
     container.appendChild(renderElement(newVnode));
   } else {
     patchElement(oldVnode, newVnode, container.firstChild);
   }
-  oldVnode = newVnode;
+  oldVnode = JSON.parse(JSON.stringify(newVnode));
 }
 
 function createListeners() {
@@ -72,7 +80,7 @@ function createListeners() {
 
   userAction(
     document.querySelector("main ul.todo-list"),
-    "click",
+    "change",
     ".toggle",
     updateTaskStatus,
   );
@@ -103,9 +111,32 @@ function createListeners() {
       }
     },
   );
+
+  userAction(
+    document.querySelector("main ul.todo-list"),
+    "dblclick",
+    "label",
+    startEdit,
+  );
+
+  userAction(
+    document.querySelector("main ul.todo-list"),
+    "keydown",
+    "input.edit",
+    (event) => {
+      if (event.key === "Enter") {
+        const id = Number(event.target.closest("li").dataset.taskid);
+        const text = event.target.value;
+        saveEdit(text, id);
+      }
+      if (event.key === "Escape") {
+        cancelEdit();
+      }
+    },
+  );
 }
 
-function createHTMLstructure(list, currentFilter) {
+function createHTMLstructure(list, currentFilter, editingID) {
   let filteredList = list;
 
   if (currentFilter === "/active") {
@@ -121,7 +152,7 @@ function createHTMLstructure(list, currentFilter) {
       id: "root",
     },
     createForm(),
-    createToDoList(filteredList),
+    createToDoList(filteredList, editingID),
     createFilters(list, currentFilter),
   );
 }

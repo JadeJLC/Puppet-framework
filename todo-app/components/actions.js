@@ -1,3 +1,8 @@
+import {
+  createElement,
+  renderElement,
+  userAction,
+} from "../../puppet/index.js";
 import { store } from "../app.js";
 
 let nextId = 1;
@@ -69,6 +74,34 @@ function markAllNew() {
   store.setState({ tasks: newTasks });
 }
 
+function startEdit(event) {
+  const id = Number(event.target.closest("li").dataset.taskid);
+  store.setState({ editingID: id });
+}
+
+function saveEdit(text, id) {
+  const state = store.getState();
+
+  const newTasks = state.tasks.map((task) => {
+    if (task.id === id) {
+      return { ...task, text: text };
+    }
+    return task;
+  });
+
+  store.setState({
+    tasks: newTasks,
+    editingID: null,
+  });
+}
+
+function cancelEdit() {
+  const state = store.getState();
+  store.setState({
+    editingID: null,
+  });
+}
+
 export {
   addNewTask,
   updateTaskStatus,
@@ -76,4 +109,7 @@ export {
   clearCompleted,
   markAllDone,
   markAllNew,
+  startEdit,
+  saveEdit,
+  cancelEdit,
 };

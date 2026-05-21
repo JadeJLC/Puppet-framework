@@ -25,7 +25,11 @@ function renderElement(vnode) {
   const el = document.createElement(vnode.tag);
 
   for (const key in vnode.attrs) {
-    el.setAttribute(key, vnode.attrs[key]);
+    if (key === "checked") {
+      el.checked = vnode.attrs[key];
+    } else {
+      el.setAttribute(key, vnode.attrs[key]);
+    }
   }
 
   vnode.children.forEach((child) => {
@@ -89,8 +93,12 @@ function patchElement(
   }
 
   for (const key in newVnode.attrs) {
-    if (!oldVnode.attrs[key]) {
-      domElement.setAttribute(key, newVnode.attrs[key]);
+    if (oldVnode.attrs[key] != newVnode.attrs[key]) {
+      if (key === "checked") {
+        domElement.checked = newVnode.attrs[key];
+      } else {
+        domElement.setAttribute(key, newVnode.attrs[key]);
+      }
     }
   }
 

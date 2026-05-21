@@ -5,12 +5,20 @@ import { createElement } from "../../puppet/index.js";
  * @param {object} task Les données de la tâche à créer
  * @param {array} allTasks Le bloc contenant tous les objets de tâche de la liste
  */
-function createListItem(task, allTasks) {
-  const label = createElement("label", { for: `task-${task.id}` }, task.text);
+function createListItem(task, allTasks, editingID) {
+  const label =
+    task.id === editingID
+      ? createElement("input", {
+          class: "edit",
+          value: task.text,
+          type: "text",
+        })
+      : createElement("label", { "data-testid": "todo-item-label" }, task.text);
   const checkBox = createElement("input", {
     class: "toggle",
     type: "checkbox",
     id: `task-${task.id}`,
+    checked: task.completed,
   });
   const deleteBtn = createElement(
     "button",
@@ -34,6 +42,7 @@ function createListItem(task, allTasks) {
     },
     wrapper,
   );
+
   allTasks.push(item);
 }
 
@@ -72,11 +81,11 @@ function createMarkAllButton() {
  * @param {array} list Une liste d'objets où chaque objet contient une tâche
  * @returns {object} La base pour fabriquer la section HTML de la todolist
  */
-function createToDoList(list) {
+function createToDoList(list, editingID) {
   const allTasks = [];
   if (list.length > 0) {
     list.forEach((task) => {
-      createListItem(task, allTasks);
+      createListItem(task, allTasks, editingID);
     });
   }
 
