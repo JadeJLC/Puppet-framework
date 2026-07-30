@@ -36,6 +36,7 @@ function createListItem(task, allTasks, editingID) {
   const item = createElement(
     "li",
     {
+      key: task.id,
       class: task.completed ? "completed" : "",
       "data-testid": "todo-item",
       "data-taskid": task.id,

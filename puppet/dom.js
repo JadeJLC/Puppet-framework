@@ -25,6 +25,7 @@ function renderElement(vnode) {
   const el = document.createElement(vnode.tag);
 
   for (const key in vnode.attrs) {
+    if (key === "key") continue;
     if (key === "checked") {
       el.checked = vnode.attrs[key];
     } else {
@@ -86,13 +87,18 @@ function patchElement(
   }
 
   for (const key in oldVnode.attrs) {
-    if (oldVnode.attrs[key] != newVnode.attrs[key]) {
-      domElement.removeAttribute(key);
-      domElement.setAttribute(key, newVnode.attrs[key]);
+    if (key === "key") continue;
+    if (!(key in newVnode.attrs)) {
+      if (key === "checked") {
+        domElement.checked = false;
+      } else {
+        domElement.removeAttribute(key);
+      }
     }
   }
 
   for (const key in newVnode.attrs) {
+    if (key === "key") continue;
     if (oldVnode.attrs[key] != newVnode.attrs[key]) {
       if (key === "checked") {
         domElement.checked = newVnode.attrs[key];
@@ -102,20 +108,69 @@ function patchElement(
     }
   }
 
-  const maxLength = Math.max(
-    oldVnode.children.length,
-    newVnode.children.length,
-  );
+  patchChildren(oldVnode.children, newVnode.children, domElement);
+}
 
-  for (let i = 0; i < maxLength; i++) {
-    patchElement(
-      oldVnode.children[i],
-      newVnode.children[i],
-      domElement.childNodes[i],
-      domElement,
-      i,
-    );
+/**
+ * Fonction de soutien : associe un noeud DOM à une tâche précise (via sa clé),
+ * plutôt qu'à une position dans la liste. Sans cela, quand un élément est
+ * retiré ou déplacé, les noeuds DOM sont réutilisés pour la mauvaise tâche
+ * (ex: une case à cocher déjà cochée nativement par le navigateur qui reste
+ * cochée alors qu'elle représente maintenant une autre tâche, non terminée).
+ * @param {array} oldChildren Les anciens enfants (vnodes)
+ * @param {array} newChildren Les nouveaux enfants (vnodes)
+ * @param {HTMLElement} domElement Le parent DOM contenant les enfants
+ */
+function patchChildren(oldChildren, newChildren, domElement) {
+  const domChildren = Array.from(domElement.childNodes);
+
+  const getKey = (vnode) =>
+    vnode && typeof vnode === "object" && vnode.attrs
+      ? vnode.attrs.key
+      : undefined;
+
+  const canUseKeys =
+    oldChildren.length > 0 &&
+    newChildren.length > 0 &&
+    oldChildren.every((child) => getKey(child) != null) &&
+    newChildren.every((child) => getKey(child) != null);
+
+  if (!canUseKeys) {
+    const maxLength = Math.max(oldChildren.length, newChildren.length);
+    for (let i = 0; i < maxLength; i++) {
+      patchElement(oldChildren[i], newChildren[i], domChildren[i], domElement);
+    }
+    return;
   }
+
+  const oldKeyToIndex = new Map();
+  oldChildren.forEach((child, i) => oldKeyToIndex.set(getKey(child), i));
+
+  const usedOldIndices = new Set();
+
+  newChildren.forEach((newChild, newIndex) => {
+    const oldIndex = oldKeyToIndex.get(getKey(newChild));
+    let domNode;
+
+    if (oldIndex !== undefined) {
+      usedOldIndices.add(oldIndex);
+      domNode = domChildren[oldIndex];
+      patchElement(oldChildren[oldIndex], newChild, domNode, domElement);
+    } else {
+      domNode = renderElement(newChild);
+    }
+
+    const refNode = domElement.childNodes[newIndex] || null;
+    if (refNode !== domNode) {
+      domElement.insertBefore(domNode, refNode);
+    }
+  });
+
+  oldChildren.forEach((child, i) => {
+    if (!usedOldIndices.has(i)) {
+      domChildren[i].remove();
+    }
+  });
 }
 
 export { createElement, renderElement, patchElement };
