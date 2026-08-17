@@ -1,0 +1,5 @@
+{
+  "name": "puppet-framework",
+  "version": "1.0.0",
+  "main": "puppet/index.js"
+}
