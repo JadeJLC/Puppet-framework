@@ -28,30 +28,30 @@ function renderElement(vnode) {
     } else {
       return document.createTextNode(vnode);
     }
-
-    if (!vnode.tag) return;
-    const el = document.createElement(vnode.tag);
-
-    for (const key in vnode.attrs) {
-      if (key === "key") continue;
-      if (key === "checked") {
-        el.checked = vnode.attrs[key];
-      } else {
-        el.setAttribute(key, vnode.attrs[key]);
-      }
-    }
-
-    vnode.children.forEach((child) => {
-      if (typeof child === "string") {
-        const node = document.createTextNode(child);
-        el.appendChild(node);
-      } else {
-        el.appendChild(renderElement(child));
-      }
-    });
-
-    return el;
   }
+
+  if (!vnode.tag) return;
+  const el = document.createElement(vnode.tag);
+
+  for (const key in vnode.attrs) {
+    if (key === "key") continue;
+    if (key === "checked") {
+      el.checked = vnode.attrs[key];
+    } else {
+      el.setAttribute(key, vnode.attrs[key]);
+    }
+  }
+
+  vnode.children.forEach((child) => {
+    if (typeof child === "string") {
+      const node = document.createTextNode(child);
+      el.appendChild(node);
+    } else {
+      el.appendChild(renderElement(child));
+    }
+  });
+
+  return el;
 }
 
 /**
