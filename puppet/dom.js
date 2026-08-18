@@ -19,17 +19,8 @@ function createElement(tag, attrs, ...children) {
  * @returns {HTMLElement} L'élément HTML prêt à être intégré dans le DOM
  */
 function renderElement(vnode) {
-  // 1. Handle string nodes (both plain text and <br> strings)
-  if (typeof vnode === "string") {
-    if (vnode.includes("<br>") || vnode.includes("<br/>")) {
-      const contain = document.createElement("span");
-      contain.innerHTML = vnode;
-      return contain;
-    }
-    return document.createTextNode(vnode);
-  }
+  if (typeof vnode === "string") return document.createTextNode(vnode);
 
-  // 2. Handle component object nodes (Notice this is OUTSIDE the string check)
   if (!vnode.tag) return;
   const el = document.createElement(vnode.tag);
 
@@ -43,8 +34,12 @@ function renderElement(vnode) {
   }
 
   vnode.children.forEach((child) => {
-    // Delegate all child rendering to renderElement so <br> strings work inside children too
-    el.appendChild(renderElement(child));
+    if (typeof child === "string") {
+      const node = document.createTextNode(child);
+      el.appendChild(node);
+    } else {
+      el.appendChild(renderElement(child));
+    }
   });
 
   return el;
